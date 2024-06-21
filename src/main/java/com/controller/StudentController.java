@@ -37,6 +37,9 @@ public class StudentController
 		{
 			model.addAttribute("studentNameValue", studentBox.getStudentName());
 		}
+		
+		
+		
 		if (studentBox.getPlayerType() == null)
 		{
 			isError = true;
@@ -44,17 +47,39 @@ public class StudentController
 		}
 		else 
 		{
-			model.addAttribute("playerTyperValue", )
+			model.addAttribute("playerTypeValue",studentBox.getPlayerType() );
 		}
+		
+		
+		
 		if (studentBox.getFoodPreference().equals("-1") == true) {
 			isError = true;
 			model.addAttribute("foodPreferenceError", "Please Select FoodPreference");
 		}
-		if (studentBox.getDrink() == null) {
+		else
+		{
+			model.addAttribute("foodPreferenceValue", studentBox.getFoodPreference());
+		}
+		
+		
+		
+		if (studentBox.getDrink() == null) 
+		{
 			isError = true;
 			model.addAttribute("drinkError", "Please Select Atleast one Drink");
 
 		}
+		 else 
+		 {
+				model.addAttribute("drinkValue", studentBox.getDrink());
+			
+		 }
+		
+		
+		model.addAttribute("reg",studentBox);
+		
+		
+		
 		if (isError == true) {
 			return "BoxCricketReg";
 		} else {

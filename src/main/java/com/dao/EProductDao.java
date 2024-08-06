@@ -11,18 +11,42 @@ import com.bean.EProductBean;
 
 @Repository
 public class EProductDao {
+
 	@Autowired
 	JdbcTemplate stmt;// used to execute sql query into databse
 
-	public void addProduct(EProductBean productBean) {
+	public void addProduct(EProductBean productBean) 
+	{
+		
 		stmt.update("insert into products (productName,category,price,qty) values (?,?,?,?) ",
 				productBean.getProductName(), productBean.getCategory(), productBean.getPrice(), productBean.getQty());
-		
 	}
-	
-	public List<EProductBean> getAllProducts() {
+
+	public List<EProductBean> getAllProducts()
+	{
 		List<EProductBean> list = stmt.query("select * from products",
-				new BeanPropertyRowMapper<EProductBean>(EProductBean.class));
+				new BeanPropertyRowMapper<EProductBean>(EProductBean.class));//BeanPropertyRowMapper e nava bean banavi jashe for every row mate
 		return list;
 	}
+	// delete from products ; //delete all
+	// delete from products where productId = XX
+	public void deleteProduct(Integer pid) {
+		
+		stmt.update("delete from products where productId=?",pid);
+	}
+	
+	public void deleteByName(String productName) {
+		stmt.update("delete from products where productName =?",productName);
+	}
+	
+	public EProductBean getProductById(Integer productId) {
+
+		EProductBean bean = stmt.queryForObject("select * from products where productId = ? ",
+				new BeanPropertyRowMapper<>(EProductBean.class), new Object[] { productId }); // name color
+		return bean;
+	}
+	// query -> select { n number of records } { 1 2 3 ....n }
+		// update -> insert update delete
+		// queryForObject -> select { exactly 1 } 0{1}2
+
 }
